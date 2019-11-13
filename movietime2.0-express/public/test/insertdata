@@ -1,0 +1,13 @@
+db.movieinfo.insertMany([
+    {filmName:'测试电影1',uploadTime:"2019-08-09",size:5646515,fileType:"mp4",hotWord:"欧美",playTimes:1,downloadTimes:2},
+    {filmName:'测试电影2',uploadTime:"2019-04-09",size:56488,fileType:"mp4",hotWord:"欧美",playTimes:4,downloadTimes:5},
+    {filmName:'测试电影3',uploadTime:"2019-05-09",size:56497,fileType:"mp4",hotWord:"欧美",playTimes:6,downloadTimes:5},
+    {filmName:'测试电影4',uploadTime:"2019-03-09",size:56493,fileType:"mp4",hotWord:"欧美",playTimes:5,downloadTimes:5},
+    {filmName:'测试电影5',uploadTime:"2019-02-09",size:56445,fileType:"mp4",hotWord:"欧美",playTimes:7,downloadTimes:5},
+    {filmName:'测试电影6',uploadTime:"2019-01-09",size:56441,fileType:"mp4",hotWord:"欧美",playTimes:8,downloadTimes:5},
+    {filmName:'测试电影7',uploadTime:"2019-04-02",size:56446,fileType:"mp4",hotWord:"欧美",playTimes:9,downloadTimes:0},
+    {filmName:'测试电影8',uploadTime:"2019-04-03",size:56442,fileType:"mp4",hotWord:"欧美",playTimes:12,downloadTimes:7},
+    {filmName:'测试电影9',uploadTime:"2019-04-04",size:56448,fileType:"mp4",hotWord:"欧美",playTimes:14,downloadTimes:9},
+    {filmName:'测试电影10',uploadTime:"2019-04-05",size:56447,fileType:"mp4",hotWord:"欧美",playTimes:16,downloadTimes:8},
+    {filmName:'测试电影11',uploadTime:"2019-06-08",size:5649878,fileType:"mp4",hotWord:"欧美",playTimes:26,downloadTimes:1}
+])

@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+
+<head>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+
+	<title>WeChat - Login</title>
+
+	<!-- Custom fonts for this template-->
+	<link href="./public/css/all.min.css" rel="stylesheet" type="text/css">
+
+	<!-- Custom styles for this template-->
+	<link href="./public/css/sb-admin.css" rel="stylesheet">
+
+
+
+
+
+</head>
+
+<body class="bg-dark">
+
+	<div class="container">
+		<div class="card card-login mx-auto mt-5">
+			<div class="card-header">Login</div>
+			<div class="card-body">
+				<form id="form" action="login" method="post">
+					<div class="form-group">
+						<div class="form-label-group">
+							<input type="text" id="username" name="username" class="form-control" placeholder="UserName"
+								required="required" autofocus="autofocus"> <label for="username">username</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="form-label-group">
+							<input type="password" id="userpassword" name="userpassword" class="form-control"
+								placeholder="user_Password" required="required"> <label
+								for="userpassword">userpassword</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="form-label-group">
+							<input type="text" id="verificationCode" name="verificationCode" class="form-control"
+								placeholder="请输入以下图片中的验证码" required="required" autofocus="autofocus"> <label
+								for="verificationCode">请输入以下图片中的验证码</label><br />
+							<!-- <img id="getImageCode" alt="点击更换" src="" class="getImageCode" /> -->
+							<img id="captcha" src="/captcha" alt="captcha" onclick="changeIma(this)">
+							<span>&nbsp;&nbsp;看不清楚?点击图片刷新验证码</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="checkbox">
+							<label> <input type="checkbox" value="remember-me" id="remember">
+								Remember Password
+							</label>
+							<div id="msg" style="color:red"></div>
+						</div>
+					</div>
+					<div class="text-center">
+						<input id="submit" type="button" style="width: 50%" value="login" onclick="check()">
+						<!-- <button id="login" type="button" style="width: 50%"  onclick="return false;" >login</button> -->
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="./public/js/jquery-3.4.1.min.js"></script>
+	<script src="./public/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="./public/js/jquery.easing.min.js"></script>
+	<script src="./public/js/common.js"></script>
+	<script src="./public/js/login.js"></script>
+
+	<script type="text/javascript">
+		//绑定回车提交表单
+		document.onkeydown = function (e) {
+			if (!e) e = window.event;//火狐中是 window.event
+			if ((e.keyCode || e.which) == 13) {
+				document.getElementById("submit").click();
+			}
+		}
+		//更换验证码
+		function changeIma() {
+			$('#verificationCode').val("")
+			document.getElementById("captcha").src = "/captcha?" + Math.floor(Math.random() * 100);
+		}
+		//ajax提单表单
+		function check() {
+			var username = $('#username').val();
+			var userpassword = $('#userpassword').val();
+			var verificationCode = $('#verificationCode').val();
+
+			//保存用户名与密码到cookies
+			if ($('#remember').is(':checked')) {
+				setCookie('username', username, 1000);
+				setCookie('userpassword', userpassword, 1000);
+			} else {
+				delCookie('nameUser');
+				delCookie('passUser');
+			}
+
+			$.ajax({
+				type: "POST",
+				url: "/login",
+				dataType: "json",
+				data: $('#form').serialize(),
+				success: function (msg) {
+					if (msg.status == "1") {
+						$('#msg').html(msg.msg)
+						changeIma()
+					} else {
+						window.location.href = "/index";
+					}
+
+				}
+			});
+
+		};
+		// 读取cookie
+		window.onload = function () {
+			var oUser = document.getElementById('username');
+			var oPswd = document.getElementById('userpassword');
+
+			var oRemember = document.getElementById('remember');
+			// 页面初始化时，如果帐号密码cookie存在则填充
+			var tmpName = getCookie('username');
+			var tmpPwd = getCookie('userpassword');
+			if (tmpName && tmpPwd) {
+				// alert("oUser="+tmpName+" oPswd="+tmpPwd);
+				if (tmpName != 'null' && tmpPwd != 'null') {
+					oUser.value = tmpName;
+					oPswd.value = tmpPwd;
+					oRemember.checked = true;
+				}
+			}
+
+		};
+
+		// 设置cookie
+		function setCookie(name, value, day) {
+			var date = new Date();
+			date.setTime(date.getTime() + day * 24 * 60 * 60 * 30);
+			document.cookie = name + '=' + value + ';expires=' + date.toGMTString();
+		}
+		;
+		// 获取cookie
+		function getCookie(name) {
+			var reg = RegExp(name + '=([^;]+)');
+			var arr = document.cookie.match(reg);
+			if (arr) {
+				return arr[1];
+			} else {
+				return '';
+			}
+		}
+		;
+		// 删除cookie
+		function delCookie(name) {
+			setCookie(name, null, -1);
+		}
+		;
+	</script>
+</body>
+
+</html>

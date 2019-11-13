@@ -1,0 +1,3 @@
+button:focus {color: #00FF00;text-decoration:underline; }
+button:hover {color: red;text-decoration:underline; }
+button:active{color:red;text-decoration:underline; }
